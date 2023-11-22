@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.template
+package com.github.cuishijie1991.a8translateplus
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
