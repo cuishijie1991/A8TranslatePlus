@@ -16,7 +16,7 @@ import java.net.URLEncoder
  * *
  */
 //访问使用小牛翻译
-private const val BASE_URL = "https://api.niutrans.com/NiuTransServer/translation?from=zh&to=en&apikey=430cd5a365eca28eec1571a1cd3a57d3&src_text="
+private const val BASE_URL = "https://api.niutrans.com/NiuTransServer/translation?from=en&to=zh&apikey=430cd5a365eca28eec1571a1cd3a57d3&src_text="
 
 /**
  * 请求网络数据
