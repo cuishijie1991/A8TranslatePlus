@@ -1,8 +1,23 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.cuishijie1991.a8translateplus</id>
-    <name>A8TranslatePlus Template</name>
-    <vendor>cuishijie1991</vendor>
+    <id>com.tracy.a8translateplus</id>
+    <name>A8TranslatePlus</name>
+    <version>1.0</version>
+    <vendor email="1540165300@qq.com" url="https://github.com/cuishijie1991/A8TranslatePlus">A8TranslatePlus</vendor>
+    <description><![CDATA[
+       一款简单的英译汉翻译插件 <br>
+      原作1: https://github.com/PingerOne/A8Translate<br>
+      原作2: https://github.com/ice1000/A8Translate<br>
+      现地址：https://github.com/cuishijie1991/A8TranslatePlus<br>
+      作者: wanpingping, ice1000，cuishijie1991
+    ]]></description>
+
+    <change-notes><![CDATA[
+      1.更换翻译源为小牛翻译并重新解析
+      2.增加对翻译过的单词本地离线缓存功能
+]]></change-notes>
+
+    <idea-version since-build="145.0"/>
 
     <depends>com.intellij.modules.platform</depends>
 

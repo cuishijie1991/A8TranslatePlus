@@ -20,7 +20,7 @@ import java.awt.Color
  */
 class TranslateAction : AnAction() {
     companion object {
-        private val icon = IconLoader.getIcon("/icons/a8.png", ClassLoader.getSystemClassLoader())
+        private val icon = IconLoader.getIcon("/icons/a8.png")
     }
 
     private lateinit var editor: Editor
@@ -42,7 +42,19 @@ class TranslateAction : AnAction() {
 
             /* 第二步 ---> API查询 */
             requestNetData(selectedText, object : NetCallback<TranslationBean> {
-                override fun onSuccess(data: TranslationBean) = showPopupWindow(data.toString())
+                override fun onSuccess(data: TranslationBean) {
+                    var text: String
+                    if (data.tgt_text != null) {
+                        if (selectedText.length < 50) {
+                            text = "$selectedText:\n${data.tgt_text}"
+                        } else {
+                            text = "段落翻译：\n${data.tgt_text}"
+                        }
+                    } else {
+                        text = "error:${data.error_msg}"
+                    }
+                    showPopupWindow(text)
+                }
 
                 override fun onFail(message: String) = showPopupWindow(message)
 
