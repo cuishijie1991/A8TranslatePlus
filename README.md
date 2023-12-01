@@ -2,10 +2,9 @@
 
 <!-- Plugin description -->
 A simple English-Chinese translation plug-in <br>
-Original work 1: https://github.com/PingerOne/A8Translate<br>
-Original work 2: https://github.com/ice1000/A8Translate<br>
-Current address: https://github.com/cuishijie1991/A8TranslatePlus<br>
-Author: wanpingping, ice1000, cuishijie1991
+Original work 1: https://github.com/ice1000/A8Translate   <br>
+Current address: https://github.com/cuishijie1991/A8TranslatePlus  <br>
+Author: ice1000, cuishijie1991
 <!-- Plugin description end -->
 
 原项目（A8Translate）似乎不维护了，旧插件无法使用很久了，故更换翻译接口，重新打包为A8TranslatePlus！
