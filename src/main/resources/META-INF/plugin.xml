@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>com.tracy.a8translateplus</id>
     <name>A8TranslatePlus</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor email="1540165300@qq.com" url="https://github.com/cuishijie1991/A8TranslatePlus">A8TranslatePlus</vendor>
     <description><![CDATA[
        A simple English-Chinese translation plug-in <br>
@@ -12,8 +12,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-     1. use the translation source to Niutrans translation and re-parse it
-     2. Add local offline caching function for translated words
+     1. 优化版本兼容性，修复2023以下版本无法唤起插件的问题
 ]]></change-notes>
 
     <idea-version since-build="145.0"/>
@@ -23,10 +22,8 @@
     <resource-bundle>messages.MyBundle</resource-bundle>
     <actions>
         <action id="A8TranslatePlus.TranslateAction"
-                class="com.tracy.a8translateplus.TranslateAction"
-                text="A8TranslatePlus"
+                class="com.tracy.a8translateplus.TranslateAction" text="A8TranslatePlus"
                 description="translate english to chinese">
-            <add-to-group group-id="EditMenu" anchor="first"/>
             <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt T"/>
         </action>

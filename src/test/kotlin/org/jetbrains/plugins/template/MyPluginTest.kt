@@ -1,4 +1,4 @@
-package com.github.cuishijie1991.a8translateplus
+package org.jetbrains.plugins.template
 
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.psi.xml.XmlFile
@@ -23,10 +23,9 @@ class MyPluginTest : BasePlatformTestCase() {
         }
     }
 
+    override fun getTestDataPath() = "src/test/testData/rename"
+
     fun testRename() {
         myFixture.testRename("foo.xml", "foo_after.xml", "a2")
     }
-
-
-    override fun getTestDataPath() = "src/test/testData/rename"
 }
