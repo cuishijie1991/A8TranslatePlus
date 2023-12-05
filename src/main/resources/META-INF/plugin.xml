@@ -28,4 +28,12 @@
             <keyboard-shortcut keymap="$default" first-keystroke="alt T"/>
         </action>
     </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.tracy.a8translateplus.AppSettingsConfigurable"
+                id="A8TranslatePlus.AppSettingsConfigurable"
+                displayName="A8TranslatePlus"/>
+    </extensions>
 </idea-plugin>

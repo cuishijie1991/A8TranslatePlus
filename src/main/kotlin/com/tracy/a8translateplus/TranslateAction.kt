@@ -9,7 +9,7 @@ import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.util.IconLoader
 import com.intellij.ui.JBColor
-import com.tracy.a8translateplus.bean.TranslationBean
+import com.tracy.a8translateplus.bean.TranslateResult
 import com.tracy.a8translateplus.net.NetCallback
 import com.tracy.a8translateplus.net.requestNetData
 import java.awt.Color
@@ -41,24 +41,25 @@ class TranslateAction : AnAction() {
             }
 
             /* 第二步 ---> API查询 */
-            requestNetData(selectedText, object : NetCallback<TranslationBean> {
-                override fun onSuccess(data: TranslationBean) {
+            requestNetData(selectedText, object : NetCallback<TranslateResult> {
+                override fun onSuccess(data: TranslateResult) {
+                    println(data.toString())
                     var text: String
-                    if (data.tgt_text != null) {
+                    if (data.result != null) {
                         if (selectedText.length < 50) {
-                            text = "$selectedText:\n${data.tgt_text}"
+                            text = "$selectedText:\n${data.result}"
                         } else {
-                            text = "段落翻译：\n${data.tgt_text}"
+                            text = "段落翻译：\n${data.result}"
                         }
                     } else {
-                        text = "error:${data.error_msg}"
+                        text = "error:${data.error}"
                     }
                     showPopupWindow(text)
                 }
 
-                override fun onFail(message: String) = showPopupWindow(message)
+                override fun onFail(message: String) = showPopupWindow("error:$message")
 
-                override fun onError(error: String) = showPopupWindow(error)
+                override fun onError(error: String) = showPopupWindow("error:$error")
             })
         }
     }

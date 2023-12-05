@@ -18,7 +18,7 @@ object LocalData {
     private val p = Properties()
     private var isInitialized = false
     fun store(@NonNls key: String, @NonNls value: String) {
-        p[StringUtils.uncapitalize("$PREFIX_NAME-$key")] = value
+        p[StringUtils.uncapitalize("${PREFIX_NAME}_$key")] = value
         save()
     }
 
@@ -39,5 +39,6 @@ object LocalData {
         }
     }
 
-    fun read(@NonNls key: String): String? = if (isInitialized) p.getProperty(StringUtils.uncapitalize("$PREFIX_NAME-$key")) else null
+    fun read(@NonNls key: String): String? = if (isInitialized) p.getProperty(StringUtils.uncapitalize("${PREFIX_NAME}_$key")) else null
+
 }
