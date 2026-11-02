@@ -27,3 +27,6 @@ Author: ice1000, cuishijie1991
     修复插件对部分ide版本兼容性问题
 - v 1.2 （23-12-05） 
     Settings-Tools-A8TranslatePlus下增加切换翻译源功能 ,支持百度翻译
+- v 1.3 （26-11-02）
+   修复IDE版本兼容性问题
+

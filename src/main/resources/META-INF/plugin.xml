@@ -12,9 +12,8 @@
     ]]></description>
 
     <change-notes><![CDATA[
-     1. Settings-Tools-A8TranslatePlus下增加切换翻译源功能
-     2. 增加百度翻译支持
-]]></change-notes>
+    修复IDE版本兼容性问题
+    ]]></change-notes>
 
     <idea-version since-build="203.0"/>
 

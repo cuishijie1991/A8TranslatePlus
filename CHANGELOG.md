@@ -4,7 +4,7 @@
 
 ## [1.3.0]
 ### Fixed
-- 修复 2023 以下版本 IDE 安装后无法正常使用的问题：降低 Gradle 编译配置、调整 `since-build` 为 203、移除 `until-build` 限制
+- 修复IDE版本兼容性问题
 
 ## [1.2.0]
 ### Added
