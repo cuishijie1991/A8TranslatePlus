@@ -2,8 +2,9 @@ package com.tracy.a8translateplus
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.PlatformDataKeys
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.ui.popup.Balloon
 import com.intellij.openapi.ui.popup.JBPopupFactory
@@ -20,30 +21,32 @@ import java.awt.Color
  */
 class TranslateAction : AnAction() {
     companion object {
-        private val icon = IconLoader.getIcon("/icons/a8.png")
+        private val icon = IconLoader.getIcon("/icons/a8.png", TranslateAction::class.java)
+        private val LOG = Logger.getInstance(TranslateAction::class.java)
     }
 
-    private lateinit var editor: Editor
     private var latestClickTime = 0L  // 上一次的点击时间
     override fun actionPerformed(e: AnActionEvent) {
-        if (!isFastClick(1000)) {
-            editor = e.getData(PlatformDataKeys.EDITOR) ?: return
+        if (isFastClick(1000)) return
 
-            // 获取选择模式对象
-            val model = editor.selectionModel
+        val editor = e.getData(CommonDataKeys.EDITOR) ?: return
 
-            // 选中文字
-            val selectedText = model.selectedText ?: return
-            if (selectedText.isBlank()) return
-            if (selectedText.length > 5000) {
-                showPopupWindow("翻译最大字符不能超过5000")
-                return
-            }
+        // 获取选择模式对象
+        val model = editor.selectionModel
 
-            /* 第二步 ---> API查询 */
+        // 选中文字
+        val selectedText = model.selectedText ?: return
+        if (selectedText.isBlank()) return
+        if (selectedText.length > 5000) {
+            showPopupWindow("翻译最大字符不能超过5000", editor)
+            return
+        }
+
+        /* 第二步 ---> API查询（放到后台线程，避免阻塞 EDT） */
+        ApplicationManager.getApplication().executeOnPooledThread {
             requestNetData(selectedText, object : NetCallback<TranslateResult> {
                 override fun onSuccess(data: TranslateResult) {
-                    println(data.toString())
+                    LOG.debug(data.toString())
                     var text: String
                     if (data.result != null) {
                         if (selectedText.length < 50) {
@@ -54,12 +57,12 @@ class TranslateAction : AnAction() {
                     } else {
                         text = "error:${data.error}"
                     }
-                    showPopupWindow(text)
+                    showPopupWindow(text, editor)
                 }
 
-                override fun onFail(message: String) = showPopupWindow("error:$message")
+                override fun onFail(message: String) = showPopupWindow("error:$message", editor)
 
-                override fun onError(error: String) = showPopupWindow("error:$error")
+                override fun onError(error: String) = showPopupWindow("error:$error", editor)
             })
         }
     }
@@ -70,14 +73,22 @@ class TranslateAction : AnAction() {
 
      * @param result string result
      */
-    private fun showPopupWindow(result: String) {
+    private fun showPopupWindow(result: String, editor: Editor) {
         ApplicationManager.getApplication().invokeLater {
-            JBPopupFactory.getInstance()
-                    .createHtmlTextBalloonBuilder(result, icon, JBColor(Color(186, 238, 186), Color(73, 117, 73)), null)
-                    .setFadeoutTime(15000)
-                    .setHideOnAction(true)
-                    .createBalloon()
-                    .show(JBPopupFactory.getInstance().guessBestPopupLocation(editor), Balloon.Position.below)
+            try {
+                if (!editor.contentComponent.isShowing) {
+                    LOG.warn("编辑器已关闭，跳过翻译结果展示")
+                    return@invokeLater
+                }
+                JBPopupFactory.getInstance()
+                        .createHtmlTextBalloonBuilder(result, icon, JBColor(Color(186, 238, 186), Color(73, 117, 73)), null)
+                        .setFadeoutTime(15000)
+                        .setHideOnAction(true)
+                        .createBalloon()
+                        .show(JBPopupFactory.getInstance().guessBestPopupLocation(editor), Balloon.Position.below)
+            } catch (e: Exception) {
+                LOG.warn("显示翻译结果失败", e)
+            }
         }
     }
 

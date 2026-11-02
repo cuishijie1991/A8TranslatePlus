@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>com.tracy.a8translateplus</id>
     <name>A8TranslatePlus</name>
-    <version>1.2</version>
+    <version>1.3</version>
     <vendor email="1540165300@qq.com" url="https://github.com/cuishijie1991/A8TranslatePlus">A8TranslatePlus</vendor>
     <description><![CDATA[
        A simple English-Chinese translation plug-in <br>
@@ -16,7 +16,7 @@
      2. 增加百度翻译支持
 ]]></change-notes>
 
-    <idea-version since-build="145.0"/>
+    <idea-version since-build="203.0"/>
 
     <depends>com.intellij.modules.platform</depends>
 
@@ -27,6 +27,7 @@
                 description="translate english to chinese">
             <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt T"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt T"/>
         </action>
     </actions>
 

@@ -24,13 +24,19 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    // 打包 Gson，避免依赖宿主 IDE 自带版本
+    implementation("com.google.code.gson:gson:2.10.1")
+}
+
 // Configure Gradle IntelliJ Plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
     pluginName.set(properties("pluginName"))
     version.set(properties("platformVersion"))
     type.set(properties("platformType"))
     downloadSources.set(properties("platformDownloadSources").toBoolean())
-    updateSinceUntilBuild.set(true)
+    // 关闭自动推导 since/until，避免 until-build 被自动填充
+    updateSinceUntilBuild.set(false)
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
@@ -66,10 +72,19 @@ tasks {
         gradleVersion = properties("gradleVersion")
     }
 
+    // 2020.3.4 的 aarch64 JBR 已无法下载，关闭仅用于设置项索引的构建任务
+    named("buildSearchableOptions") {
+        enabled = false
+    }
+
     patchPluginXml {
         version.set(properties("pluginVersion"))
         sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
+        // 留空表示不限制 until-build，避免插件随 IDE 版本升级后从市场下架
+        val untilBuildValue = properties("pluginUntilBuild")
+        if (untilBuildValue.isNotEmpty()) {
+            untilBuild.set(untilBuildValue)
+        }
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription.set(
